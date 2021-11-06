@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FE2AC444-0E2F-4596-8867-56D545EF6EFA}</ProjectGuid>
+    <ProjectGuid>{B6661687-ACE3-4398-894D-1EA40E241BB9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Niculica_Bogdan_3132b_Lab3</RootNamespace>
-    <AssemblyName>Niculica_Bogdan_3132b_Lab3</AssemblyName>
+    <RootNamespace>Niculica_Bogdan_3132b_Lab4</RootNamespace>
+    <AssemblyName>Niculica_Bogdan_3132b_Lab4</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=3.3.2.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.3.2\lib\net20\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.2.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,10 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
-    <Compile Include="Triunghi.cs" />
-    <Compile Include="Coord3D.cs" />
-    <Compile Include="Elementar.cs" />
+    <Compile Include="Cube.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,6 +55,16 @@
     <None Include="App.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LaboratorEGC\LaboratorEGC-S2.csproj">
+      <Project>{64229e4b-603a-4234-9e5a-79d25a4b4dfd}</Project>
+      <Name>LaboratorEGC-S2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Niculica_Bogdan_3132b_Lab3\Niculica_Bogdan_3132b_Lab3.csproj">
+      <Project>{fe2ac444-0e2f-4596-8867-56d545ef6efa}</Project>
+      <Name>Niculica_Bogdan_3132b_Lab3</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

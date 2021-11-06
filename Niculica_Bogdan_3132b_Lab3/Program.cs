@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+
 using OpenTK.Platform;
 using System.IO;
 //Problema 8 + 9
@@ -14,18 +15,49 @@ namespace Niculica_Bogdan_3132b_Lab3
 {
     class TriunghiColor : GameWindow
     {
-        float R1,R2,R3, G1,G2,G3, B1,B2,B3;
-        bool pressedFirst, pressedSecond, pressedThird;
+        static double angle = 0;
+        
+        float[,] vertexuri;
+        const float defaultColor = 0.5f;
+        int choice;
+        
+        
 
-        public TriunghiColor() : base(800, 600,OpenTK.Graphics.GraphicsMode.Default,"Schimba culoare triunghi")
-        {
-            KeyDown += Keyboard_KeyDown;
-            R1 = R2 = R3 = 0.9f;
-            G1 = G2 = G3 = 0.8f;
-            B1 = B2 = B3 = 0.7f;
-            pressedFirst = pressedSecond = pressedThird = false;
-            
-            
+     //   static Vector3 position = new Vector3(0.0f, 0.0f, -3.0f);
+      //  static Vector3 front = new Vector3(0.0f, 0.0f, 0.0f);
+      //  static Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
+
+        public TriunghiColor(string fileName) : base(800, 600,OpenTK.Graphics.GraphicsMode.Default,"Schimba culoare triunghi")
+        { vertexuri = new float[3,5];
+            choice = 3; // 3 = toate triunghiurile; <3 fiecare vertex in parte
+            try
+            {
+                using (StreamReader rd = new StreamReader(fileName))
+                {
+                    
+                    for(int i=0;i<3;i++)
+                    {
+                        
+                        vertexuri[i, 0] = float.Parse(rd.ReadLine());
+                        vertexuri[i, 1] = float.Parse(rd.ReadLine());
+                        vertexuri[i, 2] = vertexuri[i, 3] = vertexuri[i, 4] = defaultColor;
+                        
+                    }
+
+
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Eroare la deschiderea fisierului! " + e);
+            }
+
+            // KeyDown += Keyboard_KeyDown;
+
+            Vector3d eye = new Vector3d(0f, 0f, -3.0f);
+            Vector3d target = new Vector3d(0f, 0f, 0f);
+            Vector3d up_vector = new Vector3d(0f, 1f, 0f);
+
         }
 
 
@@ -44,7 +76,7 @@ namespace Niculica_Bogdan_3132b_Lab3
 
         protected override void OnLoad(EventArgs e)
         {
-            GL.ClearColor(Color.Gray);
+            GL.ClearColor(Color.White);
             
         }
 
@@ -53,163 +85,162 @@ namespace Niculica_Bogdan_3132b_Lab3
         {
             GL.Viewport(0, 0, Width, Height);
 
-            GL.MatrixMode(MatrixMode.Projection);
+            GL.MatrixMode(MatrixMode.Projection); 
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
+
+            MouseState mouse = Mouse.GetCursorState();
+            initialX = mouse.X;
+            initialY = mouse.Y;
+
+
+
+
         }
 
+        static double[] orientation = { 0,0,0 };
+        static int initialX, initialY;
+        
+        void MoveCamera(int cX, int cY)
+        {
+            if (cX > initialX)
+            {
+                orientation[0] = 1;
+                angle += 2;
+            }
+            if (cY >initialY)
+            {
+                orientation[1] = 1;
+            }
+        }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
-        {
+        {   //schimbarea culorii fiecarui vertex individual se face in felul urmator:
+            //se selecteaza din keypad vertexul dorit(1 = varf, 2,3 = baza de la stanga spre dreapta)
+            //pentru a reveni la modificarea intregului triunghi se mai apasa odata ultimul vertex selectat
             KeyboardState keyboard = OpenTK.Input.Keyboard.GetState();
-            //Rezolvare problema 8+9; memorarea culorii fiecarui vertex separat in 9 variabile nu este frumoasa! Revin cu modificari
-            //Scad culoare
+            MouseState mouse = OpenTK.Input.Mouse.GetState();
+            if (keyboard[Key.Keypad1])
+            {
+                choice = (choice == 0) ? 3 : 0;
+                Log("Vertexul curent ales este: " + choice);
+            }
+            else
+            if (keyboard[Key.Keypad2])
+            {
+                choice = (choice == 1) ? 3 : 1;
+                Log("Vertexul curent ales este: " + choice);
+            }
+            else
+            if (keyboard[Key.Keypad3])
+            {
+                choice = (choice == 2) ? 3 : 2;
+                Log("Vertexul curent ales este: " + choice);
+            }
+            //cum as putea face sa limitez valorile maxime/minime la -1 respectiv +1?
+            //Rezolvare problema 8+9;
             if (keyboard[Key.Left] && keyboard[Key.R])
-            {
-                if(pressedFirst)
-                    R1 = R1 - 0.005f;
-                else if(pressedSecond)
-                    R2 = R2 - 0.005f;
-                else if(pressedThird)
-                    R3 = R3 - 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 2] -= 0.05f;
                 else
                 {
-                    R1 = R1 - 0.005f;
-                    R2 = R2 - 0.005f;
-                    R3 = R3 - 0.005f;
+                    vertexuri[0, 2] -= 0.05f;
+                    vertexuri[1, 2] -= 0.05f;
+                    vertexuri[2, 2] -= 0.05f;
                 }
-                Log($"Decrease - R1={R1};R2={R2};R3={R3}");
-            }
             if (keyboard[Key.Left] && keyboard[Key.G])
-            {
-                if (pressedFirst)
-                    G1 = G1 - 0.005f;
-                else if (pressedSecond)
-                    G2 = G2 - 0.005f;
-                else if (pressedThird)
-                    G3 = G3 - 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 3] -= 0.05f;
                 else
                 {
-                    G1 = G1 - 0.005f;
-                    G2 = G2 - 0.005f;
-                    G3 = G3 - 0.005f;
+                    vertexuri[0, 3] -= 0.05f;
+                    vertexuri[1, 3] -= 0.05f;
+                    vertexuri[2, 3] -= 0.05f;
                 }
-                Log($"Decrease - G1={G1};G2={G2};G3={G3}");
-            }
             if (keyboard[Key.Left] && keyboard[Key.B])
-            {
-                if (pressedFirst)
-                    B1 = B1 - 0.005f;
-                else if (pressedSecond)
-                    B2 = B2 - 0.005f;
-                else if (pressedThird)
-                    B3 = B3 - 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 4] -= 0.05f;
                 else
                 {
-                    B1 = B1 - 0.005f;
-                    B2 = B2 - 0.005f;
-                    B3 = B3 - 0.005f;
+                    vertexuri[0, 4] -= 0.05f;
+                    vertexuri[1, 4] -= 0.05f;
+                    vertexuri[2, 4] -= 0.05f;
                 }
-                Log($"Decrease - B1={B1};B2={B2};B3={B3}");
-            }
-            //cresc culoare
             if (keyboard[Key.Right] && keyboard[Key.R])
-            {
-                if (pressedFirst)
-                    R1 = R1 + 0.005f;
-                else if (pressedSecond)
-                    R2 = R2 + 0.005f;
-                else if (pressedThird)
-                    R3 = R3 + 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 2] += 0.05f;
                 else
                 {
-                    R1 = R1 + 0.005f;
-                    R2 = R2 + 0.005f;
-                    R3 = R3 + 0.005f;
+                    vertexuri[0, 2] += 0.05f;
+                    vertexuri[1, 2] += 0.05f;
+                    vertexuri[2, 2] += 0.05f;
                 }
-                Log($"Increase - R1={R1};R2={R2};R3={R3}");
-            }
             if (keyboard[Key.Right] && keyboard[Key.G])
-            {
-                if (pressedFirst)
-                    G1 = G1 + 0.005f;
-                else if (pressedSecond)
-                    G2 = G2 + 0.005f;
-                else if (pressedThird)
-                    G3 = G3 + 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 3] += 0.05f;
                 else
                 {
-                    G1 = G1 + 0.005f;
-                    G2 = G2 + 0.005f;
-                    G3 = G3 + 0.005f;
+                    vertexuri[0, 3] += 0.05f;
+                    vertexuri[1, 3] += 0.05f;
+                    vertexuri[2, 3] += 0.05f;
                 }
-                Log($"Increase - G1={G1};G2={G2};G3={G3}");
-            }
             if (keyboard[Key.Right] && keyboard[Key.B])
-            {
-                if (pressedFirst)
-                    B1 = B1 + 0.005f;
-                else if (pressedSecond)
-                    B2 = B2 + 0.005f;
-                else if (pressedThird)
-                    B3 = B3 + 0.005f;
+                if (choice != 3)
+                    vertexuri[choice, 4] += 0.05f;
                 else
                 {
-                    B1 = B1 + 0.005f;
-                    B2 = B2 + 0.005f;
-                    B3 = B3 + 0.005f;
+                    vertexuri[0, 4] += 0.05f;
+                    vertexuri[1, 4] += 0.05f;
+                    vertexuri[2, 4] += 0.05f;
                 }
-                Log($"Increase - B1={B1};B2={B2};B3={B3}");
-            }
 
+
+
+            //rotatia camerei pentru problema 8
+            //Keyboard movement...
+            Matrix4 camera = Matrix4.LookAt(0.0f, 0.0f, -3.0f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, 0.0f);
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadMatrix(ref camera);
 
             
-            if (keyboard[Key.Number1])
-            {
-                Log("vertex 1!");
-                pressedFirst = true;
-                pressedSecond = pressedThird = false;
+            GL.Rotate(angle, new Vector3d(0,1,1));
+            angle += 1;
+            base.OnUpdateFrame(e);
 
-            }
-            if (keyboard[Key.Number2])
-            {
-                Log("vertex 2!");
-                pressedSecond = true;
-                pressedFirst = pressedThird = false;
-            }
-            if (keyboard[Key.Number3])
-            {
-                Log("vertex 3!");
-                pressedThird = true;
-                pressedFirst = pressedSecond = false;
-            }
+            //
+
+
 
         }
-
-
-        protected override void OnRenderFrame(FrameEventArgs e)
+        
+        void DrawTriangle()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
 
             GL.Begin(PrimitiveType.Triangles);
-            
-            GL.Color3(R1, G1, B1);
-            GL.Vertex2(0.0f, 1.0f);
-            GL.Color3(R2, G2, B2);
-            GL.Vertex2(-1.0f, -1.0f);
-            GL.Color3(R3, G3, B3);
-            GL.Vertex2(1.0f, -1.0f);
 
+            GL.Color3(vertexuri[0,2], vertexuri[0, 3], vertexuri[0, 4]);
+            GL.Vertex2(vertexuri[0, 0], vertexuri[0, 1]);
+            GL.Color3(vertexuri[1, 2], vertexuri[1, 3], vertexuri[1, 4]);
+            GL.Vertex2(vertexuri[1, 0], vertexuri[1, 1]);
+            GL.Color3(vertexuri[2, 2], vertexuri[2, 3], vertexuri[2, 4]);
+            GL.Vertex2(vertexuri[2, 0], vertexuri[2, 1]);
             GL.End();
 
-
+        }
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            DrawTriangle();
             this.SwapBuffers();
         }
         void Log(string msg, string file="log.txt")
         {
             Console.WriteLine(msg);
-            using (StreamWriter writetext = new StreamWriter(file))
+            if (!File.Exists(file))
+                File.Create(file);
+            using (StreamWriter writetext = File.AppendText(file))
             {
                 writetext.WriteLine(msg);
             }
@@ -220,7 +251,7 @@ namespace Niculica_Bogdan_3132b_Lab3
         {
 
 
-            using (TriunghiColor example = new TriunghiColor())
+            using (TriunghiColor example = new TriunghiColor("incarca.txt"))
             {
 
 
