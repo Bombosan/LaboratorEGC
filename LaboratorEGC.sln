@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Lab3"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Lab4", "Niculica_Bogdan_3132b_Lab4\Niculica_Bogdan_3132b_Lab4.csproj", "{B6661687-ACE3-4398-894D-1EA40E241BB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Lab5", "Niculica_Bogdan_3132b_Lab5\Niculica_Bogdan_3132b_Lab5.csproj", "{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B6661687-ACE3-4398-894D-1EA40E241BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6661687-ACE3-4398-894D-1EA40E241BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6661687-ACE3-4398-894D-1EA40E241BB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
