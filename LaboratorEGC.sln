@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Lab4"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Lab5", "Niculica_Bogdan_3132b_Lab5\Niculica_Bogdan_3132b_Lab5.csproj", "{AA3F7771-43D8-44C5-AE3A-6F6232A09EC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Laborator8", "..\..\..\..\Users\bn\Desktop\ultimeleTemeEGC\EGCLAB8Rezolvare\OpenTK_winforms_z02\Niculica_Bogdan_3132b_Laborator8.csproj", "{540F1C1E-8718-463A-A881-8DD1B93891A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niculica_Bogdan_3132b_Laborator8", "Niculica_Bogdan_3132b_Lab8\OpenTK_winforms_z02\Niculica_Bogdan_3132b_Laborator8.csproj", "{540F1C1E-8718-463A-A881-8DD1B93891A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
